@@ -6,9 +6,13 @@ import Body from "./Body";
 
 
 function App() {
+  const style = {
+    height: '100vh',
+    width:'200vh'
+  }
   return (
         <React.Fragment>
-          <div className='container-fluid align-items-center'>
+          <div className='container-fluid align-items-center' style={style}>
             <Header />
             <Body />
           </div>
