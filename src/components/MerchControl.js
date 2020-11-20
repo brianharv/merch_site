@@ -49,15 +49,7 @@ class MerchControl extends React.Component {
     });
   }
 
-  // handleAddingQuantity = (id) => {
-  //   const selectedMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
-  //   console.log(selectedMerch);
-  //   this.setState({
-  //     quantity: quantity +=1,
-  //   });
-  // }
-
-  handleAddingQuantityPrev = (id) => {
+  handleAddingQuantity = (id) => {
 
     const clone = [...this.state.masterMerchList]
     // const clone = [...this.state.masterMerchList].filter(merch => merch.id === id)[0];
@@ -72,11 +64,19 @@ class MerchControl extends React.Component {
     });
   }
 
-  addingMoreMerch = (merchQuantity) => {
-
+  handleSellingMerch = (id) => {
+    const soldMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
+    // Branching logic is questionable at best:
+    if (soldMerch.quantity > 0) {
+      soldMerch.quantity -= 1;
+      const newInventory = this.state.masterMerchList.filter(merch => merch.id !== this.state.selectedMerch.id).concat(soldMerch);
+      this.setState({
+        masterMerchList: newInventory,
+      });
+    } else {
+      alert("out of stock");
+    }
   }
-
-
 
 
 
@@ -84,7 +84,7 @@ class MerchControl extends React.Component {
     let currentlyVisibleState = null;
     let buttonText = null;
     if (this.state.selectedMerch != null) {
-      currentlyVisibleState = <MerchDetail merch={this.state.selectedMerch} onClickingDelete={this.handleDeletingSelectedMerch} onClickAddQuantity={this.handleAddingQuantityPrev} />
+      currentlyVisibleState = <MerchDetail merch={this.state.selectedMerch} onClickingDelete={this.handleDeletingSelectedMerch} onClickAddQuantity={this.handleAddingQuantity} onSellingOfMerch={this.handleSellingMerch} />
       buttonText = "Return to Merch List";
     }
     else if (this.state.formVisibleOnPage) {

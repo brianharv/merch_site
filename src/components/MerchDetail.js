@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-function MerchDetail(props){
-  const { merch, onClickingDelete, onClickAddQuantity } = props;
-  return(
+function MerchDetail(props) {
+  const { merch, onClickingDelete, onClickAddQuantity, onSellingOfMerch } = props;
+  return (
     <React.Fragment>
       <h3>Merch Detail</h3>
       <br></br>
@@ -12,8 +12,9 @@ function MerchDetail(props){
       <br></br>
       <br></br>
       <p>Price: ${merch.price} </p>
-      <button className='btn btn-primary' onClick={()=> onClickingDelete(merch.id)}>Delete this Merch!</button>
-      <button className='btn btn-secondary' onClick={()=> onClickAddQuantity(merch.id)}>Order More!</button>
+      <button className='btn btn-primary' onClick={() => onClickingDelete(merch.id)}>Delete this Merch!</button>
+      <button className='btn btn-secondary' onClick={() => onClickAddQuantity(merch.id)}>Order More!</button>
+      <button className='btn btn-success' onClick={() => onSellingOfMerch(merch.id)}>Buy Buy Buy</button>
     </React.Fragment>
   );
 }
@@ -21,7 +22,8 @@ function MerchDetail(props){
 MerchDetail.propTypes = {
   Merch: PropTypes.object,
   onClickingDelete: PropTypes.func,
-  onClickAddQuantity: PropTypes.func
+  onClickAddQuantity: PropTypes.func,
+  onSellingofMerch: PropTypes.func
 };
 
 export default MerchDetail;
