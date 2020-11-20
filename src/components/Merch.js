@@ -6,7 +6,7 @@ function Merch(props) {
   return(
     <React.Fragment>
     <div onClick = {() => props.whenMerchClicked(props.id)}>
-      <Card style={{ width: '18rem' }}>
+      <Card className="detailClick" style={{ width: '18rem' }}>
         <Card.Body>
           <Card.Title>{props.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted"><b>Price</b> - ${props.price}</Card.Subtitle>

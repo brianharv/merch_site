@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 function MerchDetail(props){
-  const { merch, onClickingDelete } = props;
+  const { merch, onClickingDelete, onClickAddQuantity } = props;
   return(
     <React.Fragment>
       <h3>Merch Detail</h3>
@@ -13,13 +13,15 @@ function MerchDetail(props){
       <br></br>
       <p>Price: ${merch.price} </p>
       <button className='btn btn-primary' onClick={()=> onClickingDelete(merch.id)}>Delete this Merch!</button>
+      <button className='btn btn-secondary' onClick={()=> onClickAddQuantity(merch.id)}>Order More!</button>
     </React.Fragment>
   );
 }
 
 MerchDetail.propTypes = {
   Merch: PropTypes.object,
-  onClickingDelete: PropTypes.func
+  onClickingDelete: PropTypes.func,
+  onClickAddQuantity: PropTypes.func
 };
 
 export default MerchDetail;

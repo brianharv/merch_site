@@ -20,8 +20,14 @@ code {
   margin-left: 2%;
   margin-right:2%
 }
-.container-fluid{
-  background-color: black;
-  color:white;
 
+.container-fluid{
+  /* background-color: black;
+  color:white; */
+
+}
+
+.detailClick:hover{
+  cursor:pointer;
+  background-color:lightblue;
 }
