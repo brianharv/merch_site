@@ -66,7 +66,7 @@ class MerchControl extends React.Component {
 
   handleSellingMerch = (id) => {
     const soldMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
-    // Branching logic is questionable at best:
+    // Branching logic is questionable at best slash doesn't wo
     if (soldMerch.quantity > 0) {
       soldMerch.quantity -= 1;
       const newInventory = this.state.masterMerchList.filter(merch => merch.id !== this.state.selectedMerch.id).concat(soldMerch);
