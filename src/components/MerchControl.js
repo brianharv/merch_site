@@ -2,6 +2,8 @@ import React from "react";
 import MerchList from "./MerchList";
 import NewMerchForm from "./NewMerchForm";
 import MerchDetail from './MerchDetail';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class MerchControl extends React.Component {
 
@@ -9,7 +11,6 @@ class MerchControl extends React.Component {
     super(props)
     this.state = {
       formVisibleOnPage: false,
-      masterMerchList: [],
       selectedMerch: null
     };
   }
@@ -28,54 +29,56 @@ class MerchControl extends React.Component {
   }
 
   handleAddingNewMerchToList = (newMerch) => {
-    const newMasterMerchList = this.state.masterMerchList.concat(newMerch);
+    const { dispatch } = this.props;
+    const { name, id, description, quantity, price } = newMerch;
+    const action = {
+      type: 'ADD_MERCH',
+      name: name,
+      description: description,
+      quantity: quantity,
+      price: price,
+      id: id,
+    }
+    dispatch(action);
     this.setState({
-      masterMerchList: newMasterMerchList,
       formVisibleOnPage: false,
       selectedMerch: null
-    });  //For Selected ticket
+    });  
   }
+  
+
 
   handleUpdatingSelectedMerch = (id) => {
-    const selectedMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
+    const selectedMerch = this.props.masterMerchList[id];
     this.setState({ selectedMerch: selectedMerch })
   }
 
   handleDeletingSelectedMerch = (id) => {
-    const newMasterMerchList = this.state.masterMerchList.filter(merch => merch.id !== id);
-    this.setState({
-      masterMerchList: newMasterMerchList,
-      selectedMerch: null
-    });
+    const { dispatch } = this.props;
+    const action = {
+      type: 'DELETE_MERCH',
+      id: id
+    }
+    dispatch(action);
+    this.setState({selectedMerch: null})
   }
 
   handleAddingQuantity = (id) => {
-
-    const clone = [...this.state.masterMerchList]
-    // const clone = [...this.state.masterMerchList].filter(merch => merch.id === id)[0];
-
-    for (let i = 0; i < clone.length; i++) {
-      if (clone[i].id === id) {
-        clone[i].quantity = clone[i].quantity + 1
-      }
+    const { dispatch } = this.props;
+    const action = {
+      type: 'ADD_QUANTITY',
+      id: id
     }
-    this.setState({
-      masterMerchList: clone
-    });
+    dispatch(action)
   }
 
   handleSellingMerch = (id) => {
-    const soldMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
-    // Branching logic is questionable at best slash doesn't wo
-    if (soldMerch.quantity > 0) {
-      soldMerch.quantity -= 1;
-      const newInventory = this.state.masterMerchList.filter(merch => merch.id !== this.state.selectedMerch.id).concat(soldMerch);
-      this.setState({
-        masterMerchList: newInventory,
-      });
-    } else {
-      alert("out of stock");
+    const { dispatch } = this.props;
+    const action = {
+      type: 'SELL_MERCH',
+      id: id
     }
+    dispatch(action);
   }
 
 
@@ -91,7 +94,7 @@ class MerchControl extends React.Component {
       currentlyVisibleState = <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />
       buttonText = "Return to Merch List";
     } else {
-      currentlyVisibleState = <MerchList merchList={this.state.masterMerchList} onMerchSelection={this.handleUpdatingSelectedMerch} />
+      currentlyVisibleState = <MerchList merchList={this.props.masterMerchList} onMerchSelection={this.handleUpdatingSelectedMerch} />
       buttonText = "Add Item";
     }
     return (
@@ -102,5 +105,17 @@ class MerchControl extends React.Component {
     );
   }
 }
+
+MerchControl.propTypes = {
+  masterMerchList: PropTypes.object
+}
+
+const mapStateToProps = state => {
+  return {
+    masterMerchList: state
+  }
+}
+
+MerchControl = connect(mapStateToProps)(MerchControl);
 
 export default MerchControl;
